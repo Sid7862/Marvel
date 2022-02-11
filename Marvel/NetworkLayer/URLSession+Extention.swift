@@ -61,12 +61,11 @@ extension URLSession
                     }
                     else if let err = error as? URLError, err.code  == URLError.Code.timedOut
                     {
-                        // No internet
+                        // Request Time Out
                         completion(.failure(.error("Request time out")))
                         return
                     }
                     else{
-                        
                         completion(.failure(.error("Error: \(error.localizedDescription.description)")))
                         return
                     }
