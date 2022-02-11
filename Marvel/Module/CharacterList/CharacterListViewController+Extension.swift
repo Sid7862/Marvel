@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Kingfisher
 
-extension CharacterListVC : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
+extension CharacterListViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 {
     //MARK: UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -65,7 +65,7 @@ extension CharacterListVC : UICollectionViewDelegate,UICollectionViewDataSource,
         
         let viewModel = CharacterDetailVM()
         viewModel.characterID = characters[indexPath.row].identifier
-        let characterDetailVC:CharacterDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CharacterDetailVC") as! CharacterDetailVC
+        let characterDetailVC:CharacterDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CharacterDetailViewController") as! CharacterDetailViewController
         characterDetailVC.viewModel = viewModel
         self.present(characterDetailVC, animated: false, completion: nil)
         

@@ -8,8 +8,8 @@
 import Foundation
 import ReactiveKit
 import Bond
-protocol CharacterDetailVMP
-{
+
+protocol CharacterDetailVMP {
     var character :Observable<CharacterData?> {get set}
     var disposeBag : DisposeBag {get}
     var isLoading : Observable<Bool> {get set} //check if mostview is loading
@@ -17,20 +17,15 @@ protocol CharacterDetailVMP
     var characterID: Int? { get set}
     func getCharacterDetail()
 }
-class CharacterDetailVM : CharacterDetailVMP
-{
+
+class CharacterDetailVM : CharacterDetailVMP {
     var characterID: Int? = nil
-    
     var status: Observable<RequestStatus?> = Observable(nil)
-    
     var character: Observable<CharacterData?> = Observable(nil)
-    
     var disposeBag: DisposeBag = DisposeBag()
-    
     var isLoading: Observable<Bool> = Observable(false)
     
     func getCharacterDetail() {
-        
         let timestamp = String(Date().currentTimeMillis())
         let md5String = timestamp + API.privateKey + API.publicKey
         var components = URLComponents()
@@ -42,7 +37,6 @@ class CharacterDetailVM : CharacterDetailVMP
             URLQueryItem(name: "apikey", value: API.publicKey),
             URLQueryItem(name: "hash", value: MyUtils.shared.MD5(string: md5String))
         ]
-        
         guard let requestUrl = components.url?.absoluteURL else {return}
         isLoading.value = true
         let session = URLSession(configuration: .default)
@@ -54,10 +48,8 @@ class CharacterDetailVM : CharacterDetailVMP
                 guard let result = data.results else {return}
                 DispatchQueue.main.async
                 {
-                    
                     result.count>0 ? self.character.value = result[0] : nil
                 }
-                
                 break
             case .failure(let Apierror):
                 switch Apierror {
@@ -65,11 +57,10 @@ class CharacterDetailVM : CharacterDetailVMP
                     print(errorString)
                     self.status.value = RequestStatus(success: false, message: errorString,interaction: true)
                     break
-                }
+}
             }
-            
         }
-    }
+}
     
     
 }

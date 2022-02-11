@@ -9,7 +9,7 @@ import UIKit
 
 import Kingfisher
 
-class CharacterDetailVC: UIViewController {
+class CharacterDetailViewController: UIViewController {
     
     //MARK: Properties
     @IBOutlet weak var imageVw : UIImageView!

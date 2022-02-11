@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class CharacterListVC : UIViewController
+class CharacterListViewController : UIViewController
 {
     //MARK: Properties
     @IBOutlet weak var collectionVw: UICollectionView!
@@ -20,11 +20,11 @@ class CharacterListVC : UIViewController
     
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
-        
         bindViewModel()
         configure()
         viewModel.getAllCharactersWithPagination(withOffset: 0)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         
     }
@@ -43,8 +43,7 @@ class CharacterListVC : UIViewController
     
     func bindViewModel()
     {
-        viewModel.isLoading.bind(to: self)
-        {
+        viewModel.isLoading.bind(to: self){
             weakSelf,loading  in
             
             loading ? weakSelf.indicator.showActivityIndicator(uiView: self.view!) : weakSelf.indicator.hideActivityIndicator(uiView: self.view!)
