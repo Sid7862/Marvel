@@ -9,11 +9,8 @@ import Foundation
 
 import CryptoKit
 
-class MyUtils
-{
-    
+class MyUtils {
     static let shared = MyUtils()
-    
     private init(){}
     
     func MD5(string: String) -> String {

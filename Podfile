@@ -7,7 +7,7 @@ target 'Marvel' do
 
   pod 'Bond'
   pod 'Kingfisher', '~> 6.0'
-
+  pod 'SwiftLint'
   # Pods for Marvel
 
   target 'MarvelTests' do

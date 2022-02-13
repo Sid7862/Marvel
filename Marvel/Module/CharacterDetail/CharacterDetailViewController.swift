@@ -12,50 +12,38 @@ import Kingfisher
 class CharacterDetailViewController: UIViewController {
     
     //MARK: Properties
-    @IBOutlet weak var imageVw : UIImageView!
-    @IBOutlet weak var titleLbl : UILabel!
-    @IBOutlet weak var descriptionLbl : UILabel!
-    let indicator: ActivityIndicator = ActivityIndicator()
-    var viewModel: CharacterDetailVMP?
-    
+    @IBOutlet weak private var imageVw : UIImageView!
+    @IBOutlet weak private var titleLbl : UILabel!
+    @IBOutlet weak private var descriptionLbl : UILabel!
+    private let indicator: ActivityIndicator = ActivityIndicator()
+    var viewModel: CharacterDetailVMP? = nil
     
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
         configure()
         bindViewModel()
-        
         guard let viewModel = viewModel else {
             return
         }
         viewModel.getCharacterDetail()
-        
     }
     
-    
     //MARK: Method
-    
-    func configure()
-    {
+    private func configure() {
         titleLbl.text = "N/A"
         descriptionLbl.text = "N/A"
         imageVw.contentMode = .scaleAspectFill
     }
-    
-    func bindViewModel()
-    {
+    private func bindViewModel() {
         guard let viewModel = viewModel else {
             return
         }
-        viewModel.character.bind(to: self)
-        { weakSelf,data in
-            
+        
+        viewModel.character.bind(to: self) { weakSelf,data in
             weakSelf.titleLbl.text = data?.name
             weakSelf.descriptionLbl.text = data?.description
-            if let path = data?.thumbnail?.path, let extention = data?.thumbnail?.imageExtension, let thumbnailUrl = URL(string: path + "." + extention)
-            {
+            if let path = data?.thumbnail?.path, let extention = data?.thumbnail?.imageExtension, let thumbnailUrl = URL(string: path + "." + extention) {
                 weakSelf.imageVw.kf.setImage(
                     with: thumbnailUrl,
                     placeholder: nil,
@@ -65,26 +53,18 @@ class CharacterDetailViewController: UIViewController {
                         .cacheOriginalImage
                     ])
             }
-            
-            
         }.dispose(in: viewModel.disposeBag)
         
-        viewModel.isLoading.bind(to: self)
-        {
-            weakSelf,loading  in
-            
-            if(loading)
-            {
+        viewModel.isLoading.bind(to: self) { weakSelf,loading  in
+            if(loading) {
                 
                 weakSelf.indicator.showActivityIndicator(uiView: self.view!)
             }
-            else{
+            else {
                 weakSelf.indicator.hideActivityIndicator(uiView: self.view!)
             }
         }
-        
     }
-    
     
     /*
      // MARK: - Navigation

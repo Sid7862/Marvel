@@ -15,6 +15,7 @@ protocol CharacterDetailVMP {
     var isLoading : Observable<Bool> {get set} //check if mostview is loading
     var status: Observable<RequestStatus?> {get set}
     var characterID: Int? { get set}
+    
     func getCharacterDetail()
 }
 
@@ -46,8 +47,7 @@ class CharacterDetailVM : CharacterDetailVMP {
             case .success(let response):
                 guard let data = response.data else {return}
                 guard let result = data.results else {return}
-                DispatchQueue.main.async
-                {
+                DispatchQueue.main.async {
                     result.count>0 ? self.character.value = result[0] : nil
                 }
                 break
@@ -57,10 +57,10 @@ class CharacterDetailVM : CharacterDetailVMP {
                     print(errorString)
                     self.status.value = RequestStatus(success: false, message: errorString,interaction: true)
                     break
-}
+                }
             }
         }
-}
+    }
     
     
 }

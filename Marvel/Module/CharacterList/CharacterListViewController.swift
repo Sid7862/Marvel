@@ -9,14 +9,14 @@ import Foundation
 
 import UIKit
 
-class CharacterListViewController : UIViewController
-{
+class CharacterListViewController : UIViewController {
+    
     //MARK: Properties
     @IBOutlet weak var collectionVw: UICollectionView!
-    let viewModel : characterListVMP = characterListVM()
     var characters: [CharacterData] = []
     var pageInfo : PageInfo? = nil
-    let indicator: ActivityIndicator = ActivityIndicator()
+    private let indicator: ActivityIndicator = ActivityIndicator()
+    let viewModel : characterListVMP = characterListVM()
     
     //MARK: ViewLifeCycle
     override func viewDidLoad() {
@@ -30,8 +30,7 @@ class CharacterListViewController : UIViewController
     }
     
     //MARK: Method
-    func configure()
-    {
+   private func configure() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         collectionVw.collectionViewLayout = layout
@@ -41,8 +40,7 @@ class CharacterListViewController : UIViewController
         collectionVw.dataSource = self
     }
     
-    func bindViewModel()
-    {
+    private func bindViewModel() {
         viewModel.isLoading.bind(to: self){
             weakSelf,loading  in
             
@@ -55,7 +53,6 @@ class CharacterListViewController : UIViewController
             weakSelf.collectionVw.reloadData()
             
         }.dispose(in: viewModel.disposeBag)
-        
     }
 }
 

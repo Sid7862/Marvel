@@ -8,8 +8,7 @@
 import Foundation
 
 // MARK: - CharacterResponse
-struct CharacterResponse:Codable,Equatable
-{
+struct CharacterResponse:Codable,Equatable {
     let code: Int?
     let status: String?
     let copyright: String?
