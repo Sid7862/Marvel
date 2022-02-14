@@ -28,7 +28,7 @@ It contain common models and classes
 
 # Download and Run
 
-First, clone or download from the repository using the option available
+First, clone or download from the repository using the available options.
 
 ### Marvel API keys
 
