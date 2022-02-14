@@ -12,8 +12,7 @@ import ReactiveKit
 
 class CharacterListAPIUnitTests: XCTestCase {
     
-    func test_CharacterListAPIResponse_With_ValidKey()
-    {
+    func test_CharacterListAPIResponse_With_ValidKey() {
         var character : [CharacterData]? = nil
         let exception = self.expectation(description: "CharacterListAPIResponse_With_ValidKey")
         
