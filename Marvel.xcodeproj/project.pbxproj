@@ -202,12 +202,10 @@
 		1A2227FB27B502D5005874D5 /* MarvelTests */ = {
 			isa = PBXGroup;
 			children = (
+				1AD2862A27BA72B2004F414D /* API */,
+				1AD2862927BA72A0004F414D /* Commom */,
 				1AD285FD27BA1E7E004F414D /* Json */,
 				1AE6CB6A27B6A72C0039E8A5 /* Model */,
-				1AE6CB6827B69EEE0039E8A5 /* CharacterListAPIUnitTests.swift */,
-				1AD2861627BA4072004F414D /* AppModel+EnumTests.swift */,
-				1AD2861827BA43B1004F414D /* MyUtilsTests.swift */,
-				1AD2862727BA510E004F414D /* CharacterDetailUnitTests.swift */,
 			);
 			path = MarvelTests;
 			sourceTree = "<group>";
@@ -288,6 +286,24 @@
 				1AD2860427BA2008004F414D /* CharacterData.json */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		1AD2862927BA72A0004F414D /* Commom */ = {
+			isa = PBXGroup;
+			children = (
+				1AD2861627BA4072004F414D /* AppModel+EnumTests.swift */,
+				1AD2861827BA43B1004F414D /* MyUtilsTests.swift */,
+			);
+			path = Commom;
+			sourceTree = "<group>";
+		};
+		1AD2862A27BA72B2004F414D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				1AE6CB6827B69EEE0039E8A5 /* CharacterListAPIUnitTests.swift */,
+				1AD2862727BA510E004F414D /* CharacterDetailUnitTests.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		1AE6CB3227B56AF20039E8A5 /* CollectionViewCell */ = {
