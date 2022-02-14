@@ -16,7 +16,7 @@ class CharacterListViewController : UIViewController {
     var characters: [CharacterData] = []
     var pageInfo : PageInfo? = nil
     private let indicator: ActivityIndicator = ActivityIndicator()
-    let viewModel : characterListVMP = characterListVM()
+    let viewModel : characterListViewModelProtocol = characterListViewModel()
     
     //MARK: ViewLifeCycle
     override func viewDidLoad() {

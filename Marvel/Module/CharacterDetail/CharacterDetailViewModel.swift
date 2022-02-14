@@ -9,7 +9,7 @@ import Foundation
 import ReactiveKit
 import Bond
 
-protocol CharacterDetailVMP {
+protocol CharacterDetailViewModelProtocol {
     var character :Observable<CharacterData?> {get set}
     var disposeBag : DisposeBag {get}
     var isLoading : Observable<Bool> {get set} //check if mostview is loading
@@ -19,7 +19,7 @@ protocol CharacterDetailVMP {
     func getCharacterDetail()
 }
 
-class CharacterDetailVM : CharacterDetailVMP {
+class CharacterDetailViewModel : CharacterDetailViewModelProtocol {
     var characterID: Int? = nil
     var status: Observable<RequestStatus?> = Observable(nil)
     var character: Observable<CharacterData?> = Observable(nil)
@@ -61,6 +61,4 @@ class CharacterDetailVM : CharacterDetailVMP {
             }
         }
     }
-    
-    
 }

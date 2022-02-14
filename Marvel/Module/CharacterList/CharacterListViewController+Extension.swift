@@ -56,7 +56,7 @@ extension CharacterListViewController : UICollectionViewDelegate,UICollectionVie
     
     //MARK: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewModel = CharacterDetailVM()
+        let viewModel = CharacterDetailViewModel()
         viewModel.characterID = characters[indexPath.row].identifier
         let characterDetailVC:CharacterDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CharacterDetailViewController") as! CharacterDetailViewController
         characterDetailVC.viewModel = viewModel
@@ -68,7 +68,9 @@ extension CharacterListViewController : UICollectionViewDelegate,UICollectionVie
         if (scrollView == self.collectionVw) {
             if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)){
                 print("reach bottom")
-                guard let totalPost = viewModel.pageInfo?.total,var offset = viewModel.pageInfo?.offset,let count = viewModel.pageInfo?.count else{return}
+                guard let totalPost = viewModel.pageInfo?.total,var offset = viewModel.pageInfo?.offset,let count = viewModel.pageInfo?.count else {
+                    return
+                }
                 if(totalPost == characters.count) {
                     //All data fectched
                 }

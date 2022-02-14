@@ -16,7 +16,7 @@ class CharacterDetailViewController: UIViewController {
     @IBOutlet weak private var titleLbl : UILabel!
     @IBOutlet weak private var descriptionLbl : UILabel!
     private let indicator: ActivityIndicator = ActivityIndicator()
-    var viewModel: CharacterDetailVMP? = nil
+    var viewModel: CharacterDetailViewModelProtocol? = nil
     
     //MARK: ViewLifeCycle
     override func viewDidLoad() {

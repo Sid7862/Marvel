@@ -9,7 +9,7 @@ import Foundation
 import Bond
 import ReactiveKit
 
-protocol characterListVMP {
+protocol characterListViewModelProtocol {
     var character :Observable<[CharacterData]?> {get set}
     var disposeBag : DisposeBag {get}
     var isLoading : Observable<Bool> {get set} //check if mostview is loading
@@ -19,7 +19,7 @@ protocol characterListVMP {
     func getAllCharactersWithPagination(withOffset offset:Int)
 }
 
-class characterListVM : characterListVMP {
+class characterListViewModel : characterListViewModelProtocol {
     var pageInfo: PageInfo? = nil
     var status: Observable<RequestStatus?> = Observable(nil)
     var character: Observable<[CharacterData]?> = Observable(nil)
