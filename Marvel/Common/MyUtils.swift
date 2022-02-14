@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import CryptoKit
 
 class MyUtils {
@@ -19,5 +18,4 @@ class MyUtils {
             String(format: "%02hhx", $0)
         }.joined()
     }
-    
 }
