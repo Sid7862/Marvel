@@ -6,32 +6,58 @@
 //
 
 import XCTest
-
 @testable import Marvel
 
+private enum ParsingTesterError: LocalizedError {
+    case jsonUrlNotFound
+    case dataParsingFailed
+}
 
 class CharacterDataTests: XCTestCase {
     
-    let sut = CharacterData(identifier: 121, name: "Ant-Man", description: "Some", modified: "No", thumbnail: ImageData(path: "", imageExtension: ""), resourceURI: "")
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func test_givenCharacterDataFromJson_parsesExpectedValues() {
+        let actual = BuildCharacterDataFromJson()
+        let expected = BuildCharacterData()
+        XCTAssertEqual(actual, expected)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    private func BuildImageData() -> ImageData {
+        let imageData = ImageData(
+            path: "http://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16",
+            imageExtension: "jpg"
+        )
+        return imageData
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    private func BuildCharacterData() -> CharacterData {
+        let characterData = CharacterData(
+            identifier: 1017100,
+            name: "A-Bomb (HAS)",
+            description: "Rick Jones has been Hulk's best bud since day one, but now he's more than a friend...he's a teammate! Transformed by a Gamma energy explosion, A-Bomb's thick, armored skin is just as strong and powerful as it is blue. And when he curls into action, he uses it like a giant bowling ball of destruction! ",
+            modified: "2013-09-18T15:54:04-0400",
+            thumbnail: BuildImageData(),
+            resourceURI: "http://gateway.marvel.com/v1/public/characters/1017100"
+        )
+        return characterData
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    private func BuildCharacterDataFromJson() -> CharacterData {
+        try! parseObjectFromJson()
     }
-
+    
+    private func parseObjectFromJson() throws -> CharacterData {
+        guard let url = urlForJsonFile() else { throw ParsingTesterError.jsonUrlNotFound }
+        guard let model = decodeObject(fromJsonAt: url) else { throw ParsingTesterError.dataParsingFailed }
+        return model
+    }
+    
+    private func urlForJsonFile() -> URL? {
+        Bundle(for: Self.self).url(forResource: String(describing: CharacterData.self), withExtension: "json")
+    }
+    
+    private func decodeObject(fromJsonAt url: URL) -> CharacterData? {
+        let decoder = JSONDecoder()
+        return try? decoder.decode(CharacterData.self, from: Data(contentsOf: url))
+    }
+    
 }
