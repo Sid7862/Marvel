@@ -15,7 +15,7 @@ private enum ParsingTesterError: LocalizedError {
 
 class CharacterResponseTests: XCTestCase {
     
-   private func test_givenCharacterResponseFromJson_parsesExpectedValues() {
+    func test_givenCharacterResponseFromJson_parsesExpectedValues() {
         let actual = BuildCharacterResponseFromJson()
         let expected = BuildCharacterResponse()
         XCTAssertEqual(actual, expected)
