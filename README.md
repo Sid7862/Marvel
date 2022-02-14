@@ -26,11 +26,9 @@ It contain common models and classes
 #### NetworkLayer 
 - Contains classes for Network releated task
 
-# Download and run
+# Download and Run
 
-Clone: First, clone the repository with the 'clone' command.
-
-$ git clone git@github.com/Sid7862/Marvel.git.
+First, clone or download from the repository using the option available
 
 ### Marvel API keys
 
