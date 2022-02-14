@@ -5,13 +5,8 @@
 //  Created by Sahibuddin Ahmed on 14/02/22.
 //
 
-@testable import Marvel
 import XCTest
-
-private enum ParsingTesterError: LocalizedError {
-    case jsonUrlNotFound
-    case dataParsingFailed
-}
+@testable import Marvel
 
 class ImageDataTests: XCTestCase {
     

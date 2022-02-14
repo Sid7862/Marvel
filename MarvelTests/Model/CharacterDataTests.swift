@@ -8,7 +8,7 @@
 import XCTest
 @testable import Marvel
 
-private enum ParsingTesterError: LocalizedError {
+enum ParsingTesterError: LocalizedError {
     case jsonUrlNotFound
     case dataParsingFailed
 }

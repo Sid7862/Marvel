@@ -8,11 +8,6 @@
 import XCTest
 @testable import Marvel
 
-private enum ParsingTesterError: LocalizedError {
-    case jsonUrlNotFound
-    case dataParsingFailed
-}
-
 class CharacterResponseTests: XCTestCase {
     
     func test_givenCharacterResponseFromJson_parsesExpectedValues() {
