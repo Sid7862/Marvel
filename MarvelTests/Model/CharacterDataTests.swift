@@ -13,10 +13,17 @@ enum ParsingTesterError: LocalizedError {
     case dataParsingFailed
 }
 
-class CharacterDataTests: XCTestCase {
+class CharacterDataTests: XCTestCase,ParsingHelper {
+    typealias ParseableObjectType = CharacterData
+    
+    func test_initialzeCharacterData() {
+        let characterData = BuildCharacterData()
+        XCTAssertNotNil(characterData)
+        XCTAssertEqual(characterData.identifier, 1017100)
+    }
     
     func test_givenCharacterDataFromJson_parsesExpectedValues() {
-        let actual = BuildCharacterDataFromJson()
+        let actual = givenParsedObjectFromJson()
         let expected = BuildCharacterData()
         XCTAssertEqual(actual, expected)
     }
@@ -39,25 +46,6 @@ class CharacterDataTests: XCTestCase {
             resourceURI: "http://gateway.marvel.com/v1/public/characters/1017100"
         )
         return characterData
-    }
-    
-    private func BuildCharacterDataFromJson() -> CharacterData {
-        try! parseObjectFromJson()
-    }
-    
-    private func parseObjectFromJson() throws -> CharacterData {
-        guard let url = urlForJsonFile() else { throw ParsingTesterError.jsonUrlNotFound }
-        guard let model = decodeObject(fromJsonAt: url) else { throw ParsingTesterError.dataParsingFailed }
-        return model
-    }
-    
-    private func urlForJsonFile() -> URL? {
-        Bundle(for: Self.self).url(forResource: String(describing: CharacterData.self), withExtension: "json")
-    }
-    
-    private func decodeObject(fromJsonAt url: URL) -> CharacterData? {
-        let decoder = JSONDecoder()
-        return try? decoder.decode(CharacterData.self, from: Data(contentsOf: url))
     }
     
 }

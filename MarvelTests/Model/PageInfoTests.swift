@@ -8,11 +8,17 @@
 import XCTest
 @testable import Marvel
 
-class PageInfoTests: XCTestCase {
+class PageInfoTests: XCTestCase,ParsingHelper {
+    typealias ParseableObjectType = PageInfo
     
-    func test_givenPageInfoFromJson_parsesExpectedValues()
-    {
-        let actual = BuildPageInfoFromJson()
+    func test_initialzePageInfo() {
+        let pageInfo = BuildPageInfo()
+        XCTAssertNotNil(pageInfo)
+        XCTAssertEqual(pageInfo.total, 1559)
+    }
+
+    func test_givenPageInfoFromJson_parsesExpectedValues() {
+        let actual = givenParsedObjectFromJson()
         let expected = BuildPageInfo()
         XCTAssertEqual(actual, expected)
     }
@@ -27,24 +33,4 @@ class PageInfoTests: XCTestCase {
         )
         return pageInfo
     }
-    
-    private func BuildPageInfoFromJson() -> PageInfo {
-        try! parseObjectFromJson()
-    }
-    
-    private func parseObjectFromJson() throws -> PageInfo {
-        guard let url = urlForJsonFile() else { throw ParsingTesterError.jsonUrlNotFound }
-        guard let model = decodeObject(fromJsonAt: url) else { throw ParsingTesterError.dataParsingFailed }
-        return model
-    }
-    
-    private func urlForJsonFile() -> URL? {
-        Bundle(for: Self.self).url(forResource: String(describing: PageInfo.self), withExtension: "json")
-    }
-    
-    private func decodeObject(fromJsonAt url: URL) -> PageInfo? {
-        let decoder = JSONDecoder()
-        return try? decoder.decode(PageInfo.self, from: Data(contentsOf: url))
-    }
-    
 }

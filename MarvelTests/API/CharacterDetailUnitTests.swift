@@ -37,7 +37,6 @@ class CharacterDetailAPIUnitTests: XCTestCase {
                 DispatchQueue.main.async {
                     result.count>0 ? character = result[0] : nil
                     exception.fulfill()
-                    
                 }
                 break
             case .failure(let Apierror):

@@ -8,10 +8,17 @@
 import XCTest
 @testable import Marvel
 
-class CharacterResponseTests: XCTestCase {
+class CharacterResponseTests: XCTestCase,ParsingHelper {
+    typealias ParseableObjectType = CharacterResponse
+    
+    func test_initialzeCharacterResponse() {
+        let characterResponse = BuildCharacterResponse()
+        XCTAssertNotNil(characterResponse)
+        XCTAssertEqual(characterResponse.code, 200)
+    }
     
     func test_givenCharacterResponseFromJson_parsesExpectedValues() {
-        let actual = BuildCharacterResponseFromJson()
+        let actual = givenParsedObjectFromJson()
         let expected = BuildCharacterResponse()
         XCTAssertEqual(actual, expected)
     }
@@ -19,24 +26,4 @@ class CharacterResponseTests: XCTestCase {
     private func BuildCharacterResponse() -> CharacterResponse {
         CharacterResponse(code: 200, status: "Ok", copyright: "© 2022 MARVEL", data: nil)
     }
-    
-    private func BuildCharacterResponseFromJson() -> CharacterResponse {
-        try! parseObjectFromJson()
-    }
-    
-    private func parseObjectFromJson() throws -> CharacterResponse {
-        guard let url = urlForJsonFile() else { throw ParsingTesterError.jsonUrlNotFound }
-        guard let model = decodeObject(fromJsonAt: url) else { throw ParsingTesterError.dataParsingFailed }
-        return model
-    }
-    
-    private func urlForJsonFile() -> URL? {
-        Bundle(for: Self.self).url(forResource: String(describing: CharacterResponse.self), withExtension: "json")
-    }
-    
-    private func decodeObject(fromJsonAt url: URL) -> CharacterResponse? {
-        let decoder = JSONDecoder()
-        return try? decoder.decode(CharacterResponse.self, from: Data(contentsOf: url))
-    }
-    
 }

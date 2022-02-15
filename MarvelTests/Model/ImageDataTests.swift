@@ -8,10 +8,11 @@
 import XCTest
 @testable import Marvel
 
-class ImageDataTests: XCTestCase {
+class ImageDataTests: XCTestCase,ParsingHelper {
+    typealias ParseableObjectType = ImageData
     
     func test_givenImageDataFromJson_parsesExpectedValues() {
-        let actual = BuildCharacterDataFromJson()
+        let actual = givenParsedObjectFromJson()
         let expected = BuildImageData()
         XCTAssertEqual(actual, expected)
     }
@@ -28,25 +29,6 @@ class ImageDataTests: XCTestCase {
             imageExtension: "jpg"
         )
         return imageData
-    }
-    
-    private func BuildCharacterDataFromJson() -> ImageData {
-        try! parseObjectFromJson()
-    }
-    
-    private func parseObjectFromJson() throws -> ImageData {
-        guard let url = urlForJsonFile() else { throw ParsingTesterError.jsonUrlNotFound }
-        guard let model = decodeObject(fromJsonAt: url) else { throw ParsingTesterError.dataParsingFailed }
-        return model
-    }
-    
-    private func urlForJsonFile() -> URL? {
-        Bundle(for: Self.self).url(forResource: String(describing: ImageData.self), withExtension: "json")
-    }
-    
-    private func decodeObject(fromJsonAt url: URL) -> ImageData? {
-        let decoder = JSONDecoder()
-        return try? decoder.decode(ImageData.self, from: Data(contentsOf: url))
     }
 }
 
