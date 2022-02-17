@@ -6,14 +6,13 @@
 //
 
 import Foundation
-
 import UIKit
 
 class CharacterListViewController : UIViewController {
     
     //MARK: Properties
-    @IBOutlet weak var collectionVw: UICollectionView!
-    var characters: [CharacterData] = []
+    @IBOutlet weak private var collectionVw: UICollectionView!
+    var characters: [CharacterCellData] = []
     var pageInfo : PageInfo? = nil
     private let indicator: ActivityIndicator = ActivityIndicator()
     let viewModel : characterListViewModelProtocol = characterListViewModel()
@@ -41,17 +40,13 @@ class CharacterListViewController : UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.isLoading.bind(to: self){
-            weakSelf,loading  in
-            
+        viewModel.isLoading.bind(to: self) { weakSelf,loading  in
             loading ? weakSelf.indicator.showActivityIndicator(uiView: self.view!) : weakSelf.indicator.hideActivityIndicator(uiView: self.view!)
-        }
-        viewModel.character.bind(to: self)
-        { weakSelf,data in
-            
+        }.dispose(in: viewModel.disposeBag)
+        
+        viewModel.character.bind(to: self) { weakSelf,data in
             weakSelf.characters.append(contentsOf: data ?? [])
             weakSelf.collectionVw.reloadData()
-            
         }.dispose(in: viewModel.disposeBag)
     }
 }

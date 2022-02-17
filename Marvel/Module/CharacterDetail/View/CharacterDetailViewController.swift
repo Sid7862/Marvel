@@ -43,27 +43,19 @@ class CharacterDetailViewController: UIViewController {
         viewModel.character.bind(to: self) { weakSelf,data in
             weakSelf.titleLbl.text = data?.name
             weakSelf.descriptionLbl.text = data?.description
-            if let path = data?.thumbnail?.path, let extention = data?.thumbnail?.imageExtension, let thumbnailUrl = URL(string: path + "." + extention) {
-                weakSelf.imageVw.kf.setImage(
-                    with: thumbnailUrl,
-                    placeholder: nil,
-                    options: [
-                        .processor(DownsamplingImageProcessor(size:weakSelf.imageVw.frame.size)),
-                        .scaleFactor(UIScreen.main.scale),
-                        .cacheOriginalImage
-                    ])
-            }
+            weakSelf.imageVw.kf.setImage(
+                with: data?.imageURL,
+                placeholder: nil,
+                options: [
+                    .processor(DownsamplingImageProcessor(size:weakSelf.imageVw.frame.size)),
+                    .scaleFactor(UIScreen.main.scale),
+                    .cacheOriginalImage
+                ])
         }.dispose(in: viewModel.disposeBag)
         
         viewModel.isLoading.bind(to: self) { weakSelf,loading  in
-            if(loading) {
-                
-                weakSelf.indicator.showActivityIndicator(uiView: self.view!)
-            }
-            else {
-                weakSelf.indicator.hideActivityIndicator(uiView: self.view!)
-            }
-        }
+            loading ? weakSelf.indicator.showActivityIndicator(uiView: self.view!) :  weakSelf.indicator.hideActivityIndicator(uiView: self.view!)
+        }.dispose(in: viewModel.disposeBag)
     }
     
     /*

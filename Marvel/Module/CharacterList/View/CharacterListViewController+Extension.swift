@@ -5,9 +5,7 @@
 //  Created by Sahibuddin Ahmed on 11/02/22.
 //
 
-import Foundation
 import UIKit
-import Kingfisher
 
 extension CharacterListViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     //MARK: UICollectionViewDataSource
@@ -18,19 +16,7 @@ extension CharacterListViewController : UICollectionViewDelegate,UICollectionVie
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CharacterCVwCell", for: indexPath) as! CharacterCVwCell
-        cell.titleLbl.text = characters[indexPath.row].name ?? "N/A"
-        cell.descriptionLbl.text = characters[indexPath.row].description ?? "N/A"
-        cell.thumbnailImageVw.contentMode = .scaleAspectFill
-        if let path = characters[indexPath.row].thumbnail?.path, let extention = characters[indexPath.row].thumbnail?.imageExtension, let thumbnailUrl = URL(string: path + "." + extention) {
-            cell.thumbnailImageVw.kf.setImage(
-                with: thumbnailUrl,
-                placeholder: UIImage(named: "user-avatar.jpg"),
-                options: [
-                    .processor(DownsamplingImageProcessor(size:  cell.thumbnailImageVw.frame.size)),
-                    .scaleFactor(UIScreen.main.scale),
-                    .cacheOriginalImage
-                ])
-        }
+        cell.prepareCell(with: characters[indexPath.row])
         return cell
         
     }
@@ -65,23 +51,18 @@ extension CharacterListViewController : UICollectionViewDelegate,UICollectionVie
     
     //MARK: UIScrollViewDelegate
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (scrollView == self.collectionVw) {
-            if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)){
-                print("reach bottom")
-                guard let totalPost = viewModel.pageInfo?.total,var offset = viewModel.pageInfo?.offset,let count = viewModel.pageInfo?.count else {
-                    return
-                }
-                if(totalPost == characters.count) {
-                    //All data fectched
-                }
-                else {
-                    viewModel.getAllCharactersWithPagination(withOffset: offset + Int(FetchLimt.twenty.rawValue)!)
-                }
+        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)){
+            print("reach bottom")
+            guard let totalPost = viewModel.pageInfo?.total,let offset = viewModel.pageInfo?.offset else {
+                return
             }
-            if (scrollView.contentOffset.y < 0){}
-            if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y < (scrollView.contentSize.height - scrollView.frame.size.height)) {
-                print("not top and not bottom")
+            if(totalPost != characters.count) {
+                viewModel.getAllCharactersWithPagination(withOffset: offset + Int(FetchLimt.twenty.rawValue)!)
             }
+        }
+        else if (scrollView.contentOffset.y < 0) { }
+        else if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y < (scrollView.contentSize.height - scrollView.frame.size.height)) {
+            print("not top and not bottom")
         }
     }
 }

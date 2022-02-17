@@ -10,7 +10,7 @@ import Bond
 import ReactiveKit
 
 protocol characterListViewModelProtocol {
-    var character :Observable<[CharacterData]?> {get set}
+    var character :Observable<[CharacterCellData]?> {get set}
     var disposeBag : DisposeBag {get}
     var isLoading : Observable<Bool> {get set} //check if mostview is loading
     var status: Observable<RequestStatus?> {get set}
@@ -22,7 +22,7 @@ protocol characterListViewModelProtocol {
 class characterListViewModel : characterListViewModelProtocol {
     var pageInfo: PageInfo? = nil
     var status: Observable<RequestStatus?> = Observable(nil)
-    var character: Observable<[CharacterData]?> = Observable(nil)
+    var character: Observable<[CharacterCellData]?> = Observable(nil)
     var disposeBag: DisposeBag = DisposeBag()
     var isLoading: Observable<Bool> = Observable(false)
     
@@ -50,7 +50,7 @@ class characterListViewModel : characterListViewModelProtocol {
                 guard let data = response.data else {return}
                 guard let result = data.results else {return}
                 DispatchQueue.main.async {
-                    self.character.value = result
+                    self.character.value = self.prepareCharacterCellData(characterData: result)
                     self.pageInfo = PageInfo(offset: data.offset, limit: data.limit, total: data.total, count: data.count, results: result)
                 }
                 break
@@ -63,5 +63,23 @@ class characterListViewModel : characterListViewModelProtocol {
                 }
             }
         }
+    }
+    
+    func prepareCharacterCellData(characterData: [CharacterData]?) -> [CharacterCellData]? {
+        characterData?.compactMap({ data in
+            guard let identifier = data.identifier,
+                  let name = data.name,
+                  let description = data.description
+            else { return nil }
+            let imageURL = prepareImageURL(imageData: data.thumbnail)
+            return CharacterCellData(identifier: identifier, name: name, description: description, imageURL: imageURL)
+        })
+    }
+    
+    func prepareImageURL(imageData: ImageData?) -> URL? {
+        guard let path = imageData?.path,
+              let extention = imageData?.imageExtension
+        else { return nil }
+        return URL(string: path + "." + extention)
     }
 }
